@@ -1,14 +1,17 @@
 package org.example;
+
 import weka.core.Instances;
 import weka.core.converters.ConverterUtils.DataSource;
-import java.io.File;
 import weka.filters.Filter;
-import weka.filters.unsupervised.attribute.NumericToNominal;//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
+import weka.filters.unsupervised.attribute.NumericToNominal;
+
+import java.io.File;
+
 public class Main {
-    public static void main(String[] args) throws Exception{//TIP Press <shortcut actionId="ShowIntentionActions"/> with your caret at the highlighted text
+    public static void main(String[] args) throws Exception {
         try {
             // Specify the dataset path
-            String datasetPath = "E:\\HCMIU\\Lab\\DM\\project\\data_mining\\src\\data\\train_preprocessed.arff";
+            String datasetPath = "src\\data\\train_preprocessed.arff";
 
             // Check if the file exists
             File file = new File(datasetPath);
@@ -27,23 +30,38 @@ public class Main {
                 return;
             }
 
-            // Set class index
+            // Set class index (last attribute)
             if (data.classIndex() == -1) {
                 data.setClassIndex(data.numAttributes() - 1);
             }
 
             // Convert numeric class to nominal
             NumericToNominal filter = new NumericToNominal();
-            filter.setAttributeIndices("last"); // Apply to the class attribute (last)
+            filter.setAttributeIndices("last");
             filter.setInputFormat(data);
             Instances filteredData = Filter.useFilter(data, filter);
 
-            // Initialize Naivebayess and run
+            // Run and print results for each model
+            System.out.println("===================================");
+            System.out.println("Running Naive Bayes...");
             Naivebayess nb = new Naivebayess();
-            String results = nb.run(filteredData);
+            System.out.println(nb.run(filteredData));
 
-            // Print results
-            System.out.println(results);
+            System.out.println("===================================");
+            System.out.println("Running Random Forest...");
+            RandomForestModel rf = new RandomForestModel();
+            System.out.println(rf.run(filteredData));
+
+            System.out.println("===================================");
+            System.out.println("Running Logistic Regression...");
+            LogisticRegressionModel lr = new LogisticRegressionModel();
+            System.out.println(lr.run(filteredData));
+
+            System.out.println("===================================");
+            System.out.println("Running J48 Decision Tree...");
+            J48DecisionTreeModel tree = new J48DecisionTreeModel();
+            System.out.println(tree.run(filteredData));
+
         } catch (Exception e) {
             System.err.println("An error occurred: " + e.getMessage());
             e.printStackTrace();
