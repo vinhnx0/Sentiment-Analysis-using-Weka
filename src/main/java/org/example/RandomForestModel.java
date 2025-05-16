@@ -5,15 +5,24 @@ import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
 public class RandomForestModel {
+    private int numTrees = 100;
+
+    public RandomForestModel() {}
+
+    public RandomForestModel(int numTrees) {
+        this.numTrees = numTrees;
+    }
+
     public String run(Instances data) throws Exception {
         RandomForest rf = new RandomForest();
+        rf.setOptions(new String[]{"-I", Integer.toString(numTrees)}); // set number of trees
         rf.buildClassifier(data);
 
         Evaluation eval = new Evaluation(data);
         eval.evaluateModel(rf, data);
 
         StringBuilder results = new StringBuilder();
-        results.append("Results of Random Forest Model:\n");
+        results.append("Results of Random Forest Model (").append(numTrees).append(" trees):\n");
         results.append(rf.getCapabilities().toString());
         results.append(String.format("Correct: %.2f%%\n", eval.pctCorrect()));
         results.append(String.format("Incorrect: %.2f%%\n", eval.pctIncorrect()));

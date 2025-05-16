@@ -5,15 +5,24 @@ import weka.classifiers.Evaluation;
 import weka.core.Instances;
 
 public class LogisticRegressionModel {
+    private int maxIters = 100; // mặc định
+
+    public LogisticRegressionModel() {}
+
+    public LogisticRegressionModel(int maxIters) {
+        this.maxIters = maxIters;
+    }
+
     public String run(Instances data) throws Exception {
         Logistic lr = new Logistic();
+        lr.setMaxIts(maxIters);
         lr.buildClassifier(data);
 
         Evaluation eval = new Evaluation(data);
         eval.evaluateModel(lr, data);
 
         StringBuilder results = new StringBuilder();
-        results.append("Results of Logistic Regression Model:\n");
+        results.append("Results of Logistic Regression Model (maxIters = ").append(maxIters).append("):\n");
         results.append(lr.getCapabilities().toString());
         results.append(String.format("Correct: %.2f%%\n", eval.pctCorrect()));
         results.append(String.format("Incorrect: %.2f%%\n", eval.pctIncorrect()));

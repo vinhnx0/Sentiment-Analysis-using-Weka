@@ -11,29 +11,20 @@ import java.awt.*;
 public class J48TreeVisualizer {
 
     public void run(Instances data) throws Exception {
-        // Huấn luyện mô hình J48
+        data.setClassIndex(data.numAttributes() - 1);
+
         J48 tree = new J48();
         tree.buildClassifier(data);
 
-        // Tạo cửa sổ hiển thị cây
-        final JFrame jf = new JFrame("Weka Classifier Tree Visualizer: J48");
-        jf.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); // Chỉ đóng cửa sổ, không thoát chương trình
-        jf.setSize(1000, 700);
-        jf.getContentPane().setLayout(new BorderLayout());
+        final JFrame frame = new JFrame("J48 Decision Tree");
+        frame.setSize(800, 600);
+        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
-        // Tạo TreeVisualizer với cây được sinh từ J48
         TreeVisualizer tv = new TreeVisualizer(null, tree.graph(), new PlaceNode2());
-        jf.getContentPane().add(tv, BorderLayout.CENTER);
+        frame.setLayout(new BorderLayout());
+        frame.add(tv, BorderLayout.CENTER);
+        frame.setVisible(true);
 
-        // Xử lý khi người dùng đóng cửa sổ
-        jf.addWindowListener(new java.awt.event.WindowAdapter() {
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                jf.dispose();
-            }
-        });
-
-        // Hiển thị và scale phù hợp
-        jf.setVisible(true);
         tv.fitToScreen();
     }
 }
