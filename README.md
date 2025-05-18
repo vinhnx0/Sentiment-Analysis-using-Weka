@@ -35,6 +35,8 @@ Sentiment-Analysis-using-Weka/
 │         ├── NaiveBayesModel.java
 │         ├── RandomForestEva.java
 │         └── RandomForestModel.java
+├── weka.jar
+├── mtj-1.0.4.jar
 ├── .gitignore                      # Git ignore file
 ├── README.md                       # Project README file
 ├── data.csv                        # Raw dataset
@@ -68,6 +70,75 @@ To run this project, ensure you have the following installed:
 3. **(Optional) Preprocess the data**:
    - Install Python and required libraries (`pip install pandas sentence-transformers`).
    - Run the `preprocessing.ipynb` Jupyter notebook to generate `train_preprocessed.csv`, `test_preprocessed.csv`, and `train_preprocessed.arff`.
+
+## Adding JAR Dependencies in IntelliJ IDEA
+
+This guide explains how to add the `weka.jar` and `mtj-1.0.4.jar` files as dependencies in IntelliJ IDEA for the **Sentiment-Analysis-using-Weka** project.
+
+### Steps to Add JAR Dependencies in IntelliJ IDEA
+
+1. **Open the Project in IntelliJ IDEA**:
+
+   - Launch IntelliJ IDEA and open the `Sentiment-Analysis-using-Weka` project.
+
+2. **Access Project Structure**:
+
+   - Go to `File` &gt; `Project Structure` (or press `Ctrl+Alt+Shift+S` on Windows/Linux, `Cmd+;` on macOS).
+
+3. **Add JAR Files to Libraries**:
+
+   - In the `Project Structure` window, select `Modules` from the left panel.
+   - Select the module (e.g., `Sentiment-Analysis-using-Weka`).
+   - Go to the `Dependencies` tab and click the `+` button (or `Add` button) at the bottom.
+   - Choose `JARs or Directories`.
+   - Navigate to the project root directory and select both `weka.jar` and `mtj-1.0.4.jar`.
+   - Click `OK` to add them to the module's dependencies.
+
+4. **Set Scope**:
+
+   - Ensure the scope for both JARs is set to `Compile` (default) to make them available during compilation and runtime.
+
+5. **Apply Changes**:
+
+   - Click `Apply` and then `OK` to close the `Project Structure` window.
+
+6. **Verify Dependencies**:
+
+   - Check the `External Libraries` section in the Project Explorer to confirm that `weka.jar` and `mtj-1.0.4.jar` are listed.
+   - Rebuild the project (`Build` &gt; `Rebuild Project`) to ensure no errors occur due to missing dependencies.
+
+### Using Maven (Optional)
+
+If you prefer managing dependencies via Maven, the `pom.xml` file already includes Weka dependencies. Ensure the following dependencies are present:
+
+```xml
+<dependency>
+    <groupId>nz.ac.waikato.cms.weka</groupId>
+    <artifactId>weka-stable</artifactId>
+    <version>3.8.6</version>
+</dependency>
+<dependency>
+    <groupId>com.github.fommil.netlib</groupId>
+    <artifactId>mtj</artifactId>
+    <version>1.0.4</version>
+</dependency>
+```
+
+Run `mvn clean install` to download and include these dependencies automatically.
+
+### Troubleshooting
+
+- **ClassNotFoundException or NoClassDefFoundError**: Ensure both JARs are correctly added to the module dependencies and the project is rebuilt.
+- **Version Conflicts**: Verify that mtj-1.0.4.jar is compatible with weka.jar. If issues arise, consider using the Maven approach to ensure consistent versions.
+- **JAR Not Found**: Confirm that weka.jar and mtj-1.0.4.jar are in the project root directory as shown in the structure.
+
+### Additional Notes
+
+- The `weka.jar` file provides the core Weka library for machine learning tasks.
+- The `mtj-1.0.4.jar` file is a dependency required by Weka for matrix operations.
+- If you modify the project structure (e.g., move JARs to a `lib/` folder), update the paths in IntelliJ IDEA accordingly.
+
+For further assistance, refer to the Weka Documentation or contact the project contributors.
 
 ## Usage
 
